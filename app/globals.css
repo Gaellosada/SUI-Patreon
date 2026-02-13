@@ -1,0 +1,371 @@
+@import "tailwindcss";
+
+/* Dark blue glassy design */
+@layer base {
+  :root {
+    --background: 222 47% 8%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222 47% 11%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217 91% 60%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 217 33% 18%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217 33% 18%;
+    --muted-foreground: 215 20% 55%;
+    --accent: 217 33% 22%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 217 33% 22%;
+    --input: 217 33% 22%;
+    --ring: 217 91% 60%;
+    --radius: 0.75rem;
+    /* Glass effect - dark blue */
+    --glass-bg: rgba(15, 23, 42, 0.6);
+    --glass-border: rgba(148, 163, 184, 0.1);
+    --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Scroll snap - forces user into one section or the other, no stopping in between */
+html.scroll-snap-container {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  overscroll-behavior-y: contain;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  body {
+    background: linear-gradient(
+      160deg,
+      hsl(222 47% 6%) 0%,
+      hsl(222 47% 10%) 40%,
+      hsl(230 45% 8%) 100%
+    );
+    color: hsl(var(--foreground));
+    font-feature-settings: "rlig" 1, "calt" 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Glass morphism */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+.glass-light {
+  background: rgba(30, 41, 59, 0.45);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.glass-subtle {
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(148, 163, 184, 0.08);
+}
+
+/* Feed animations */
+@keyframes feed-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes feed-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-0.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-feed-in {
+  animation: feed-fade-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.animate-feed-slide {
+  animation: feed-slide-down 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Drop success confirmation */
+@keyframes drop-success {
+  0% {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  20% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  40% {
+    transform: scale(1);
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+.animate-drop-success {
+  animation: drop-success 1.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+/* Hover animations */
+.hover-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+}
+
+.hover-glow {
+  transition: box-shadow 0.2s ease;
+}
+.hover-glow:hover {
+  box-shadow: 0 0 24px rgba(59, 130, 246, 0.25);
+}
+
+.hover-scale {
+  transition: transform 0.2s ease;
+}
+.hover-scale:hover {
+  transform: scale(1.02);
+}
+
+/* Floating widget animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delay-1 {
+  animation: float 4.5s ease-in-out 0.3s infinite;
+}
+
+.animate-float-delay-2 {
+  animation: float 5s ease-in-out 0.6s infinite;
+}
+
+.animate-float-delay-3 {
+  animation: float 4.2s ease-in-out 0.15s infinite;
+}
+
+/* Hover zoom - left column elevates left-up, right column elevates right-up */
+/* White glow around widgets */
+/* When one widget is hovered, others shift away for fluid reflow */
+.hover-zoom-left {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 1rem;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.15),
+    0 0 24px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.hover-zoom-left:hover {
+  overflow: visible;
+  transform: translate(-12px, -16px) scale(1.04) rotate(-1.2deg);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 0 48px rgba(255, 255, 255, 0.15),
+    0 0 80px rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    -16px -16px 40px rgba(255, 255, 255, 0.1),
+    -10px -10px 28px rgba(255, 255, 255, 0.08),
+    16px -16px 40px rgba(255, 255, 255, 0.08),
+    16px 16px 40px rgba(255, 255, 255, 0.08),
+    -16px 16px 40px rgba(255, 255, 255, 0.08);
+}
+
+/* Right column shifts right when left is hovered; left column scales down */
+.widget-grid:has(.hover-zoom-left:hover) .hover-zoom-right:not(:hover) {
+  transform: translateX(10px) scale(0.98);
+}
+.widget-grid:has(.hover-zoom-left:hover) .hover-zoom-left:not(:hover) {
+  transform: scale(0.98);
+}
+
+/* Widget above hovered one shifts up to avoid overlap (2-col grid: child 3→1, 4→2, 5→3, 6→4) */
+.widget-grid:has(> :nth-child(3) article:hover) > :nth-child(1) article {
+  transform: translateY(-24px) scale(0.98);
+}
+.widget-grid:has(> :nth-child(4) article:hover) > :nth-child(2) article {
+  transform: translateY(-24px) scale(0.98);
+}
+.widget-grid:has(> :nth-child(5) article:hover) > :nth-child(3) article {
+  transform: translateY(-24px) scale(0.98);
+}
+.widget-grid:has(> :nth-child(6) article:hover) > :nth-child(4) article {
+  transform: translateY(-24px) scale(0.98);
+}
+
+.hover-zoom-right {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  border-radius: 1rem;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.15),
+    0 0 24px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.hover-zoom-right:hover {
+  overflow: visible;
+  transform: translate(12px, -16px) scale(1.04) rotate(1.2deg);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 0 48px rgba(255, 255, 255, 0.15),
+    0 0 80px rgba(255, 255, 255, 0.08),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    16px -16px 40px rgba(255, 255, 255, 0.1),
+    10px -10px 28px rgba(255, 255, 255, 0.08),
+    -16px -16px 40px rgba(255, 255, 255, 0.08),
+    -16px 16px 40px rgba(255, 255, 255, 0.08),
+    16px 16px 40px rgba(255, 255, 255, 0.08);
+}
+
+/* Left column shifts left when right is hovered; right column scales down */
+.widget-grid:has(.hover-zoom-right:hover) .hover-zoom-left:not(:hover) {
+  transform: translateX(-10px) scale(0.98);
+}
+.widget-grid:has(.hover-zoom-right:hover) .hover-zoom-right:not(:hover) {
+  transform: scale(0.98);
+}
+
+.hover-zoom-center {
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.15),
+    0 0 24px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+.hover-zoom-center:hover {
+  transform: translateY(-12px) scale(1.02) rotate(0.5deg);
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 0 48px rgba(255, 255, 255, 0.12),
+    0 0 72px rgba(255, 255, 255, 0.06),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.12),
+    -16px -16px 36px rgba(255, 255, 255, 0.1),
+    16px -16px 36px rgba(255, 255, 255, 0.1),
+    -16px 16px 36px rgba(255, 255, 255, 0.1),
+    16px 16px 36px rgba(255, 255, 255, 0.1);
+}
+
+/* Vivid watery vibrating background */
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 0%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 100%;
+  }
+}
+
+@keyframes gradient-pulse {
+  0%, 100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes water-ripple {
+  0%, 100% {
+    transform: scale(1) translate(0, 0);
+    opacity: 0.4;
+  }
+  33% {
+    transform: scale(1.02) translate(2%, 1%);
+    opacity: 0.6;
+  }
+  66% {
+    transform: scale(0.98) translate(-1%, 2%);
+    opacity: 0.5;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Connect overlay animation - smooth entrance */
+@keyframes connect-overlay-bg {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes connect-overlay-content {
+  from {
+    opacity: 0;
+    transform: scale(0.96) translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-connect-overlay-bg {
+  animation: connect-overlay-bg 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.animate-connect-overlay-content {
+  animation: connect-overlay-content 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) 0.08s forwards;
+}
